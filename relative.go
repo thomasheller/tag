@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/thomasheller/tag/sortedset"
+	s "github.com/thomasheller/sortedset"
 )
 
 type RelativeTags struct {
@@ -28,8 +28,8 @@ func (t RelativeTags) Del(tag string, files ...string) {
 	t.base.Del(tag, relFiles...)
 }
 
-func (t RelativeTags) Find(tag string) map[string]sortedset.SortedSet {
-	result := make(map[string]sortedset.SortedSet)
+func (t RelativeTags) Find(tag string) map[string]s.SortedSet {
+	result := make(map[string]s.SortedSet)
 
 	for file, tags := range t.base.Find(tag) {
 

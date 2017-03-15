@@ -6,14 +6,14 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/thomasheller/tag/sortedset"
+	s "github.com/thomasheller/sortedset"
 )
 
 // Db implements a primitive key-value store.
 type Db struct {
 	filename string
 	fs       fileSystem
-	data     map[string]sortedset.SortedSet
+	data     map[string]s.SortedSet
 }
 
 func newDb(filename string, fs fileSystem) *Db {
@@ -21,7 +21,7 @@ func newDb(filename string, fs fileSystem) *Db {
 }
 
 func (db *Db) load() {
-	db.data = make(map[string]sortedset.SortedSet)
+	db.data = make(map[string]s.SortedSet)
 
 	if !db.fs.FileExists(db.filename) {
 		return
@@ -40,7 +40,7 @@ func (db *Db) load() {
 		k := parts[0]
 		v := parts[1]
 		values := strings.Split(v, ",")
-		db.data[k] = sortedset.New(values)
+		db.data[k] = s.New(values)
 	}
 
 	if err := db.fs.Err(); err != nil {
@@ -93,7 +93,7 @@ func (db *Db) add(key string, value string) {
 		set.Add(value)
 		db.data[key] = set
 	} else {
-		db.data[key] = sortedset.New([]string{value})
+		db.data[key] = s.New([]string{value})
 	}
 }
 
@@ -112,8 +112,8 @@ func (db *Db) remove(key string, value string) {
 	}
 }
 
-func (db *Db) list() map[string]sortedset.SortedSet {
-	result := make(map[string]sortedset.SortedSet)
+func (db *Db) list() map[string]s.SortedSet {
+	result := make(map[string]s.SortedSet)
 	for k, v := range db.data {
 		result[k] = v
 	}

@@ -6,7 +6,7 @@ import (
 	"os"
 	"sort"
 
-	"github.com/thomasheller/tag/sortedset"
+	s "github.com/thomasheller/sortedset"
 )
 
 func main() {
@@ -84,7 +84,7 @@ func runCommand(tags Tags, op string, params ...string) bool {
 	return true
 }
 
-func printSortedMap(m map[string]sortedset.SortedSet) {
+func printSortedMap(m map[string]s.SortedSet) {
 	keys := []string{}
 	for key := range m {
 		keys = append(keys, key)

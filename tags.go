@@ -6,13 +6,13 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/thomasheller/tag/sortedset"
+	s "github.com/thomasheller/sortedset"
 )
 
 type Tags interface {
 	Add(tag string, files ...string)
 	Del(tag string, files ...string)
-	Find(tag string) map[string]sortedset.SortedSet
+	Find(tag string) map[string]s.SortedSet
 	Untagged() []string
 	List(prefix string) []string
 	Dump() []string
@@ -57,8 +57,8 @@ func (t BaseTags) Del(tag string, files ...string) {
 	t.db.save()
 }
 
-func (t BaseTags) Find(tag string) map[string]sortedset.SortedSet {
-	matches := make(map[string]sortedset.SortedSet)
+func (t BaseTags) Find(tag string) map[string]s.SortedSet {
+	matches := make(map[string]s.SortedSet)
 
 	for filename, tags := range t.db.list() {
 		if tags.Contains(tag) {
@@ -93,7 +93,7 @@ WalkLoop:
 }
 
 func (t BaseTags) List(prefix string) []string {
-	list := sortedset.New([]string{})
+	list := s.New([]string{})
 
 	for filename, tags := range t.db.list() {
 		if prefix == "." || strings.HasPrefix(filename, prefix) {
